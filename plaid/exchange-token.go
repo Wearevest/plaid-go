@@ -17,7 +17,7 @@ func (c *Client) ExchangeToken(publicToken string) (postRes *postResponse, err e
 	if err != nil {
 		return nil, err
 	}
-	postRes, _, err = c.postAndUnmarshal("/exchange_token", bytes.NewReader(jsonText))
+	postRes, _, err = c.postAndUnmarshal("/item/public_token/exchange", bytes.NewReader(jsonText))
 	return postRes, err
 }
 

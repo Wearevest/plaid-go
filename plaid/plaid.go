@@ -34,72 +34,55 @@ type Client struct {
 
 type environmentURL string
 
-var Tartan environmentURL = "https://tartan.plaid.com"
-var Production environmentURL = "https://api.plaid.com"
+var Sandbox environmentURL = "https://sandbox.plaid.com"
+var Production environmentURL = "https://production.plaid.com"
 
 type Account struct {
-	ID      string `json:"_id"`
-	ItemID  string `json:"_item"`
-	UserID  string `json:"_user"`
-	Balance struct {
+	Transactions []Transaction `json:"transactions" bson:"transactions"`
+	Type         string        `json:"type"`
+	Mask         string        `json:"mask"`
+	Name         string        `json:"name"`
+	AccountID    string        `json:"account_id"`
+	Balances     struct {
+		Limit     float64 `json:"limit"`
 		Available float64 `json:"available"`
 		Current   float64 `json:"current"`
-	} `json:"balance"`
-	Meta struct {
-		Number string `json:"number"`
-		Name   string `json:"name"`
-	} `json:"meta"`
-	Numbers struct {
-		Account     string `json:"account"`
-		Routing     string `json:"routing"`
-		WireRouting string `json:"wireRouting"`
-	} `json:"numbers"`
-	Type            string `json:"type"`
-	InstitutionType string `json:"institution_type"`
+	} `json:"balances"`
+	Subtype      string `json:"subtype"`
+	OfficialName string `json:"official_name"`
 }
 
 type Transaction struct {
-	ID        string `json:"_id"`
-	AccountID string `json:"_account"`
-
-	Amount float64 `json:"amount"`
-	Date   string  `json:"date"`
-	Name   string  `json:"name"`
-	Meta   struct {
-		AccountOwner string `json:"account_owner"`
-
-		Location struct {
-			Address string `json:"address"`
-			City    string `json:"city"`
-
-			Coordinates struct {
-				Lat float64 `json:"lat"`
-				Lon float64 `json:"lon"`
-			} `json:"coordinates"`
-
-			State string `json:"state"`
-			Zip   string `json:"zip"`
-		} `json:"location"`
-	} `json:"meta"`
-
-	Pending bool `json:"pending"`
-
-	Type struct {
-		Primary string `json:"primary"`
-	} `json:"type"`
-
-	Category   []string `json:"category"`
-	CategoryID string   `json:"category_id"`
-
-	Score struct {
-		Location struct {
-			Address float64 `json:"address"`
-			City    float64 `json:"city"`
-			State   float64 `json:"state"`
-			Zip     float64 `json:"zip"`
-		}
-		Name float64 `json:"name"`
-	} `json:"score"`
+	PendingTransactionID string   `json:"pending_transaction_id"`
+	Name                 string   `json:"name"`
+	AccountOwner         string   `json:"account_owner"`
+	Category             []string `json:"category"`
+	TransactionType      string   `json:"transaction_type"`
+	AccountID            string   `json:"account_id"`
+	Amount               float32  `json:"amount"`
+	Date                 string   `json:"date"`
+	TransactionID        string   `json:"transaction_id"`
+	Location             struct {
+		Zip         string  `json:"zip"`
+		State       string  `json:"state"`
+		StoreNumber string  `json:"store_number"`
+		Lon         float64 `json:"lon"`
+		City        string  `json:"city"`
+		Lat         float64 `json:"lat"`
+		Address     string  `json:"address"`
+	} `json:"location"`
+	CategoryID  string `json:"category_id"`
+	Pending     bool   `json:"pending"`
+	PaymentMeta struct {
+		Reason           string `json:"reason"`
+		Payee            string `json:"payee"`
+		PpdID            string `json:"ppd_id"`
+		Payer            string `json:"payer"`
+		ByOrderOf        string `json:"by_order_of"`
+		ReferenceNumber  string `json:"reference_number"`
+		PaymentProcessor string `json:"payment_processor"`
+		PaymentMethod    string `json:"payment_method"`
+	} `json:"payment_meta"`
 }
 
 type mfaIntermediate struct {
@@ -136,12 +119,13 @@ type mfaResponse struct {
 
 type postResponse struct {
 	// Normal response fields
-	AccessToken      string        `json:"access_token"`
-	AccountId        string        `json:"account_id"`
-	Accounts         []Account     `json:"accounts"`
-	BankAccountToken string        `json:"stripe_bank_account_token"`
-	MFA              string        `json:"mfa"`
-	Transactions     []Transaction `json:"transactions"`
+	AccessToken       string        `json:"access_token"`
+	AccountId         string        `json:"account_id"`
+	Accounts          []Account     `json:"accounts"`
+	BankAccountToken  string        `json:"stripe_bank_account_token"`
+	MFA               string        `json:"mfa"`
+	Transactions      []Transaction `json:"transactions"`
+	TotalTransactions int           `json:"total_transactions"`
 }
 
 type deleteResponse struct {

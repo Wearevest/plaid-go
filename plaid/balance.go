@@ -17,7 +17,7 @@ func (c *Client) Balance(accessToken string) (postRes *postResponse, err error) 
 	if err != nil {
 		return nil, err
 	}
-	postRes, _, err = c.postAndUnmarshal("/balance", bytes.NewReader(jsonText))
+	postRes, _, err = c.postAndUnmarshal("/accounts/balance/get", bytes.NewReader(jsonText))
 	return postRes, err
 }
 
