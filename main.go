@@ -2,42 +2,27 @@ package main
 
 import (
 	"fmt"
+	"github.com/wearevest/plaidgo/plaid"
 	"strings"
-
-	"github.com/plaid/plaid-go/plaid"
 )
 
 // main contains example usage of all functions
 func main() {
-	// GET /institutions
-	res, err := plaid.GetInstitutions(plaid.Tartan)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(res[0].Name, "has type:", res[0].Type)
-
-	// GET /institutions/5301a93ac140de84910000e0
-	inst, err := plaid.GetInstitution(plaid.Tartan, "5301a93ac140de84910000e0")
-	if err != nil {
-		fmt.Println("Institution Error:", err)
-	}
-	fmt.Println(inst.Name, "has mfa:", strings.Join(inst.MFA, ", "))
-
 	// GET /categories
-	categories, err := plaid.GetCategories(plaid.Tartan)
+	categories, err := plaid.GetCategories(plaid.Sandbox)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println("First category:", categories[0])
 
 	// GET /categories/13001001
-	category, err := plaid.GetCategory(plaid.Tartan, "13001001")
+	category, err := plaid.GetCategory(plaid.Sandbox, "13001001")
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println("category", category.ID, "is", strings.Join(category.Hierarchy, ", "))
 
-	client := plaid.NewClient("test_id", "test_secret", plaid.Tartan)
+	client := plaid.NewClient("test_id", "test_secret", plaid.Sandbox)
 
 	// POST /auth
 	postRes, mfaRes, err :=
