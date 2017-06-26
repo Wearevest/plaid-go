@@ -8,6 +8,7 @@ import (
 
 // main contains example usage of all functions
 func main() {
+	fmt.Println("starting plaid go client")
 	// GET /categories
 	categories, err := plaid.GetCategories(plaid.Sandbox)
 	if err != nil {
