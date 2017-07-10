@@ -9,6 +9,7 @@ import (
 //
 // See https://plaid.com/docs/api/#balance.
 func (c *Client) Balance(accessToken string) (postRes *postResponse, err error) {
+
 	jsonText, err := json.Marshal(balanceJson{
 		ClientID:    c.clientID,
 		Secret:      c.secret,
