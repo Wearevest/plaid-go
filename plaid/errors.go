@@ -6,15 +6,15 @@ import (
 
 type plaidError struct {
 	// List of all errors: https://github.com/plaid/support/blob/master/errors.md
-	ErrorCode int    `json:"code"`
-	Message   string `json:"message"`
-	Resolve   string `json:"resolve"`
+	HttpErrorCode int    `json:"http_code"`
+	ErrorCode     string `json:"error_type"`
+	Message       string `json:"error_message"`
 
 	// StatusCode needs to manually set from the http response
 	StatusCode int
 }
 
 func (e plaidError) Error() string {
-	return fmt.Sprintf("Plaid Error - http status: %d, code: %d, message: %s, resolve: %s",
-		e.StatusCode, e.ErrorCode, e.Message, e.Resolve)
+	return fmt.Sprintf("Plaid Error - http status: %d, code: %d, message: %s",
+		e.HttpErrorCode, e.ErrorCode, e.Message)
 }

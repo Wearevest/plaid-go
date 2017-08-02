@@ -130,6 +130,8 @@ type postResponse struct {
 }
 type Item struct {
 	InstitutionId string `json:"institution_id"`
+	ItemId        string `json:"item_id"`
+	Webhook       string `json:"webhook"`
 }
 
 type deleteResponse struct {
