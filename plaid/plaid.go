@@ -36,6 +36,7 @@ type environmentURL string
 
 var Sandbox environmentURL = "https://sandbox.plaid.com"
 var Production environmentURL = "https://production.plaid.com"
+var Development environmentURL = "https://development.plaid.com"
 
 type Account struct {
 	Transactions []Transaction `json:"transactions" bson:"transactions"`

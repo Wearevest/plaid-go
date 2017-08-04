@@ -22,6 +22,20 @@ func (c *Client) Balance(accessToken string) (postRes *postResponse, err error) 
 	return postRes, err
 }
 
+func (c *Client) Accounts(accessToken string) (postRes *postResponse, err error) {
+
+	jsonText, err := json.Marshal(balanceJson{
+		ClientID:    c.clientID,
+		Secret:      c.secret,
+		AccessToken: accessToken,
+	})
+	if err != nil {
+		return nil, err
+	}
+	postRes, _, err = c.postAndUnmarshal("/accounts/get", bytes.NewReader(jsonText))
+	return postRes, err
+}
+
 type balanceJson struct {
 	ClientID    string `json:"client_id"`
 	Secret      string `json:"secret"`
